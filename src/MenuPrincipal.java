@@ -22,8 +22,7 @@ public class MenuPrincipal {
             sc.nextLine();
 
             switch (opcao){
-                case 1 -> diario.adicionarGasto(new Gasto());
-                case 2 ->
+                case 1 -> diario.adicionarGasto(sc);
             }
 
         }while (opcao != 5);
