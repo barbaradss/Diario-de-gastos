@@ -1,7 +1,34 @@
+import java.util.Scanner;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+public class MenuPrincipal {
     public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        DiarioDeGastos diario = new DiarioDeGastos();
+        int opcao;
+
+        do {
+            System.out.println("==|Menu|==");
+            System.out.println("Bem vindo ao seu diário de gastos!");
+            System.out.println("Escolha uma opção: ");
+            System.out.println("1- Adicionar Gasto");
+            System.out.println("2- Listar Gasto");
+            System.out.println("3-Remover Gasto");
+            System.out.println("4-Editar gasto");
+            System.out.println("5-Sair");
+            opcao = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcao){
+                case 1 -> diario.adicionarGasto(new Gasto());
+                case 2 ->
+            }
+
+        }while (opcao != 5);
+
+
 
     }
 }
