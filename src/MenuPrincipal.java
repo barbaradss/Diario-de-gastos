@@ -18,7 +18,7 @@ public class MenuPrincipal {
             System.out.println("3-Remover Gasto");
             System.out.println("4-Editar gasto");
             System.out.println("5-Sair");
-            opcao = diario.lerInteiro(sc); // arrumar delay
+            opcao = diario.lerInteiro(sc); // arrumar delay no scanner
             sc.nextLine();
 
             switch (opcao) {

@@ -142,6 +142,7 @@ public class DiarioDeGastos {
             }
         } else {
             System.out.println("Índice inválido.");
+
         }
     }
 
