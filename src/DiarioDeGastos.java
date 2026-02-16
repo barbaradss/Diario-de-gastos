@@ -30,19 +30,6 @@ public class DiarioDeGastos {
         System.out.println("Gasto adicionado com sucesso!");
     }
 
-
-    public void removerGasto(String descricao) {
-        for (int i = 0; i < listaDeGastos.size(); i++) {
-            Gasto gasto = listaDeGastos.get(i);
-            if (gasto.getDescricao().equalsIgnoreCase(descricao)) {
-                listaDeGastos.remove(i);
-                System.out.println("Gasto removido!");
-                return;
-            }
-        }
-        System.out.println("Gasto não encontrado.");
-    }
-
     public void consultarGasto(){
         if(listaDeGastos.isEmpty()) {
             System.out.println("Não há gastos registrados.");
@@ -52,6 +39,27 @@ public class DiarioDeGastos {
             System.out.println(gasto);
         }
     }
+
+    public void removerGasto(Scanner sc) {
+        if (listaDeGastos.isEmpty()){
+            System.out.println("Não há gastos para remover");
+            return;
+        }
+        int i;
+        for (i = 0; i < listaDeGastos.size(); i++) {
+            System.out.println("[" + i + "]" + listaDeGastos.get(i));
+        }
+        System.out.println("Selecione o item a ser removido");
+        int opcao = sc.nextInt();
+
+        if (opcao >= 0 && opcao < listaDeGastos.size()){
+            listaDeGastos.remove(opcao);
+            System.out.println("Gasto removido com sucesso!");
+        } else {
+            System.out.println("Índice inválido.");
+        }
+    }
+
 
     public void editarGasto(int indice, String novaDescricao, String novaCategoria,
                             double novoValor,

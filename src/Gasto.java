@@ -1,20 +1,14 @@
-public class Gastos {
-    private String nome;
+public class Gasto {
     private String descricao;
     private String categoria;
     private double valor;
     private String data;
 
-    public Gastos(String nome, String descricao, String categoria, double valor, String data){
-        this.nome = nome;
+    public Gasto( String descricao, String categoria, double valor, String data){
         this.descricao = descricao;
         this.categoria = categoria;
         this.valor = valor;
         this.data = data;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     public String getDescricao(){
@@ -31,10 +25,6 @@ public class Gastos {
 
     public String getData(){
         return data;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public void setDescricao(String descricao){
@@ -55,8 +45,7 @@ public class Gastos {
 
     @Override
     public String toString() {
-        return "Nome: " + nome +
-                "Descrição: " + descricao +
+        return "Descrição: " + descricao +
                 " | Categoria: " + categoria +
                 " | Valor: " + valor +
                 " | Data: " + data;

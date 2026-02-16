@@ -23,6 +23,8 @@ public class MenuPrincipal {
 
             switch (opcao){
                 case 1 -> diario.adicionarGasto(sc);
+                case 2 -> diario.consultarGasto();
+                case 3 -> diario.removerGasto(sc);
             }
 
         }while (opcao != 5);
