@@ -21,12 +21,16 @@ public class MenuPrincipal {
             opcao = sc.nextInt();
             sc.nextLine();
 
-            switch (opcao){
+            switch (opcao) {
                 case 1 -> diario.adicionarGasto(sc);
                 case 2 -> diario.consultarGasto();
                 case 3 -> diario.removerGasto(sc);
+                case 4 -> diario.editarGasto(sc);
+                case 5 -> {
+                    System.out.println("Saindo do programa...");
+                    break;
+                }
             }
-
         }while (opcao != 5);
 
 

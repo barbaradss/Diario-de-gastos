@@ -60,27 +60,41 @@ public class DiarioDeGastos {
         }
     }
 
-
-    public void editarGasto(int indice, String novaDescricao, String novaCategoria,
-                            double novoValor,
-                            String novaData){
-        if (indice < 0 || indice >= listaDeGastos.size()) {
-            System.out.println("Índice inválido!");
+    public void editarGasto(Scanner sc){
+        if (listaDeGastos.isEmpty()) {
+            System.out.println("Não há gastos para editar.");
             return;
         }
-        Gasto gasto = listaDeGastos.get(indice);
 
+        for (int i = 0; i < listaDeGastos.size(); i++) {
+            System.out.println("[" + i + "] " + listaDeGastos.get(i));
+        }
+
+        System.out.print("Selecione o índice do item a ser modificado: ");
+        int opcao = sc.nextInt();
+
+        if (opcao < 0 || opcao >= listaDeGastos.size()) {
+            System.out.println("Índice inválido.");
+            return;
+        }
+
+        sc.nextLine();
+
+        Gasto gasto = listaDeGastos.get(opcao);
+
+        System.out.print("Digite a nova descrição: ");
+        String novaDescricao = sc.nextLine();
         gasto.setDescricao(novaDescricao);
+
+        System.out.print("Digite a nova categoria: ");
+        String novaCategoria = sc.nextLine();
         gasto.setCategoria(novaCategoria);
+
+        System.out.print("Digite o novo valor: ");
+        double novoValor = sc.nextDouble();
         gasto.setValor(novoValor);
-        gasto.setData(novaData);
 
-        System.out.println("Gasto atualizado com sucesso!");
-
-
+        System.out.println("Gasto editado com sucesso!");
     }
-
-
-
 }
 
