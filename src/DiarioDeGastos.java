@@ -5,6 +5,28 @@ public class DiarioDeGastos {
     private ArrayList<Gasto> listaDeGastos = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
+    //fazer tratamento de erros
+    public int lerInteiro(Scanner sc) {
+        while (true) {
+            try {
+                return Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                System.out.println("Digite um número inteiro válido:");
+            }
+        }
+    }
+    public double lerDouble(Scanner sc) {
+        while (true) {
+            try {
+                return Double.parseDouble(sc.nextLine());
+            } catch (Exception e) {
+                System.out.println("Digite um valor numérico válido:");
+            }
+        }
+    }
+
+
+
     public DiarioDeGastos(){
         listaDeGastos = new ArrayList<>();
     }
@@ -17,11 +39,24 @@ public class DiarioDeGastos {
         String categoria = sc.nextLine();
 
         System.out.println("Digite o valor:");
-        double valor = sc.nextDouble();
-        sc.nextLine();
+        double valor = lerDouble(sc);
 
-        System.out.println("Digite a data:");
-        String data = sc.nextLine();
+        while (valor <= 0) {
+            System.out.println("O valor deve ser positivo:");
+            valor = lerDouble(sc);
+        }
+
+        String data;
+        while (true) {
+            System.out.println("Digite a data (dd/MM/yyyy): ");
+            data = sc.nextLine();
+
+            if (data.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                break;
+            } else {
+                System.out.println("Formato inválido! Use dd/MM/yyyy.");
+            }
+        }
 
         Gasto g = new Gasto(descricao, categoria, valor, data);
 
@@ -30,15 +65,56 @@ public class DiarioDeGastos {
         System.out.println("Gasto adicionado com sucesso!");
     }
 
-    public void consultarGasto(){
-        if(listaDeGastos.isEmpty()) {
+    public void consultarGasto(Scanner sc) {
+
+        if (listaDeGastos.isEmpty()) {
             System.out.println("Não há gastos registrados.");
             return;
         }
-        for(Gasto gasto : listaDeGastos) {
-            System.out.println(gasto);
+
+        System.out.println("Consultar por:");
+        System.out.println("1 - Mês");
+        System.out.println("2 - Semana");
+        int opcao = sc.nextInt();
+        sc.nextLine();
+
+        switch (opcao) {
+
+            case 1:
+                System.out.print("Digite o mês (MM): ");
+                String mes = sc.nextLine();
+
+                for (Gasto gasto : listaDeGastos) {
+                    String mesGasto = gasto.getData().substring(3,5);
+
+                    if (mesGasto.equals(mes)) {
+                        System.out.println(gasto);
+                    }
+                }
+                break;
+
+            case 2:
+                System.out.print("Digite o dia inicial da semana: ");
+                int inicio = sc.nextInt();
+
+                System.out.print("Digite o dia final da semana: ");
+                int fim = sc.nextInt();
+                sc.nextLine();
+
+                for (Gasto gasto : listaDeGastos) {
+                    int dia = Integer.parseInt(gasto.getData().substring(0,2));
+
+                    if (dia >= inicio && dia <= fim) {
+                        System.out.println(gasto);
+                    }
+                }
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
         }
     }
+
 
     public void removerGasto(Scanner sc) {
         if (listaDeGastos.isEmpty()){
@@ -50,11 +126,20 @@ public class DiarioDeGastos {
             System.out.println("[" + i + "]" + listaDeGastos.get(i));
         }
         System.out.println("Selecione o item a ser removido");
-        int opcao = sc.nextInt();
+        int opcao = lerInteiro(sc);
+
 
         if (opcao >= 0 && opcao < listaDeGastos.size()){
-            listaDeGastos.remove(opcao);
-            System.out.println("Gasto removido com sucesso!");
+            System.out.println("Tem certeza que deseja remover este gasto? (s/n)");
+            System.out.println(listaDeGastos.get(opcao));
+            String confirmacao = sc.nextLine().trim().toLowerCase();
+
+            if (confirmacao.equals("s")) {
+                listaDeGastos.remove(opcao);
+                System.out.println("Gasto removido com sucesso!");
+            } else {
+                System.out.println("Remoção cancelada.");
+            }
         } else {
             System.out.println("Índice inválido.");
         }
@@ -71,7 +156,7 @@ public class DiarioDeGastos {
         }
 
         System.out.print("Selecione o índice do item a ser modificado: ");
-        int opcao = sc.nextInt();
+        int opcao = lerInteiro(sc);
 
         if (opcao < 0 || opcao >= listaDeGastos.size()) {
             System.out.println("Índice inválido.");
@@ -91,8 +176,17 @@ public class DiarioDeGastos {
         gasto.setCategoria(novaCategoria);
 
         System.out.print("Digite o novo valor: ");
-        double novoValor = sc.nextDouble();
+        double novoValor = lerDouble(sc);
+        while (novoValor <= 0) {
+            System.out.println("O valor deve ser positivo:");
+            novoValor = lerDouble(sc);
+        }
+
         gasto.setValor(novoValor);
+
+        System.out.println("Digite a nova data: ");
+        String novaData = sc.nextLine();
+        gasto.setData(novaData);
 
         System.out.println("Gasto editado com sucesso!");
     }

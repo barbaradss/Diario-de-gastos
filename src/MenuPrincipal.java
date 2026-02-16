@@ -18,12 +18,12 @@ public class MenuPrincipal {
             System.out.println("3-Remover Gasto");
             System.out.println("4-Editar gasto");
             System.out.println("5-Sair");
-            opcao = sc.nextInt();
+            opcao = diario.lerInteiro(sc); // arrumar delay
             sc.nextLine();
 
             switch (opcao) {
                 case 1 -> diario.adicionarGasto(sc);
-                case 2 -> diario.consultarGasto();
+                case 2 -> diario.consultarGasto(sc);
                 case 3 -> diario.removerGasto(sc);
                 case 4 -> diario.editarGasto(sc);
                 case 5 -> {
