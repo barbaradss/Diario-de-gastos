@@ -1,11 +1,67 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 public class DiarioDeGastos {
     private ArrayList<Gasto> listaDeGastos = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
-    //fazer tratamento de erros
+    public void salvarEmArquivo() {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("gastos.txt"))) {
+
+            for (Gasto gasto : listaDeGastos) {
+                writer.write(
+                        gasto.getDescricao() + ";" +
+                                gasto.getCategoria() + ";" +
+                                gasto.getValor() + ";" +
+                                gasto.getData()
+                );
+                writer.newLine();
+            }
+
+            System.out.println("Gastos salvos com sucesso!");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar arquivo: " + e.getMessage());
+        }
+    }
+
+    public void carregarDoArquivo() {
+        File arquivo = new File("gastos.txt");
+
+        if (!arquivo.exists()) {
+            return; // Se ainda não existir arquivo, não faz nada
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+
+            String linha;
+
+            while ((linha = reader.readLine()) != null) {
+
+                String[] partes = linha.split(";");
+
+                if (partes.length == 4) {
+
+                    String descricao = partes[0];
+                    String categoria = partes[1];
+                    double valor = Double.parseDouble(partes[2]);
+                    String data = partes[3];
+
+                    Gasto gasto = new Gasto(descricao, categoria, valor, data);
+                    listaDeGastos.add(gasto);
+                }
+            }
+
+            System.out.println("Gastos carregados com sucesso!");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao carregar arquivo: " + e.getMessage());
+        }
+    }
+
     public int lerInteiro(Scanner sc) {
         while (true) {
             try {
@@ -15,6 +71,7 @@ public class DiarioDeGastos {
             }
         }
     }
+
     public double lerDouble(Scanner sc) {
         while (true) {
             try {
@@ -25,10 +82,9 @@ public class DiarioDeGastos {
         }
     }
 
-
-
     public DiarioDeGastos(){
         listaDeGastos = new ArrayList<>();
+        carregarDoArquivo();
     }
 
     public void adicionarGasto(Scanner sc){
@@ -75,8 +131,7 @@ public class DiarioDeGastos {
         System.out.println("Consultar por:");
         System.out.println("1 - Mês");
         System.out.println("2 - Semana");
-        int opcao = sc.nextInt();
-        sc.nextLine();
+        int opcao = lerInteiro(sc);
 
         switch (opcao) {
 
@@ -95,11 +150,10 @@ public class DiarioDeGastos {
 
             case 2:
                 System.out.print("Digite o dia inicial da semana: ");
-                int inicio = sc.nextInt();
+                int inicio = lerInteiro(sc);
 
                 System.out.print("Digite o dia final da semana: ");
-                int fim = sc.nextInt();
-                sc.nextLine();
+                int fim = lerInteiro(sc);
 
                 for (Gasto gasto : listaDeGastos) {
                     int dia = Integer.parseInt(gasto.getData().substring(0,2));
@@ -114,7 +168,6 @@ public class DiarioDeGastos {
                 System.out.println("Opção inválida.");
         }
     }
-
 
     public void removerGasto(Scanner sc) {
         if (listaDeGastos.isEmpty()){
@@ -137,8 +190,11 @@ public class DiarioDeGastos {
             if (confirmacao.equals("s")) {
                 listaDeGastos.remove(opcao);
                 System.out.println("Gasto removido com sucesso!");
-            } else {
+            } if (confirmacao.equals("n")) {
                 System.out.println("Remoção cancelada.");
+            }
+            else {
+                System.out.println("Digite apenas 's' ou 'n'.");
             }
         } else {
             System.out.println("Índice inválido.");
@@ -163,8 +219,6 @@ public class DiarioDeGastos {
             System.out.println("Índice inválido.");
             return;
         }
-
-        sc.nextLine();
 
         Gasto gasto = listaDeGastos.get(opcao);
 
@@ -192,4 +246,3 @@ public class DiarioDeGastos {
         System.out.println("Gasto editado com sucesso!");
     }
 }
-

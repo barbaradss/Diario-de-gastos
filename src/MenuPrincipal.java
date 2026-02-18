@@ -19,7 +19,7 @@ public class MenuPrincipal {
             System.out.println("4-Editar gasto");
             System.out.println("5-Sair");
             opcao = diario.lerInteiro(sc); // arrumar delay no scanner
-            sc.nextLine();
+
 
             switch (opcao) {
                 case 1 -> diario.adicionarGasto(sc);
@@ -27,13 +27,11 @@ public class MenuPrincipal {
                 case 3 -> diario.removerGasto(sc);
                 case 4 -> diario.editarGasto(sc);
                 case 5 -> {
+                    diario.salvarEmArquivo();
                     System.out.println("Saindo do programa...");
                     break;
                 }
             }
         }while (opcao != 5);
-
-
-
     }
 }
