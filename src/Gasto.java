@@ -50,5 +50,4 @@ public class Gasto {
                 " | Valor: " + valor +
                 " | Data: " + data;
     }
-
 }

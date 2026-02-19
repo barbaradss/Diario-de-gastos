@@ -4,8 +4,11 @@ import java.util.Scanner;
 
 
 public class DiarioDeGastos {
-    private ArrayList<Gasto> listaDeGastos = new ArrayList<>();
-    Scanner sc = new Scanner(System.in);
+    private final ArrayList<Gasto> listaDeGastos = new ArrayList<>();
+
+    public DiarioDeGastos(){
+        carregarDoArquivo();
+    }
 
     public void salvarEmArquivo() {
 
@@ -32,7 +35,7 @@ public class DiarioDeGastos {
         File arquivo = new File("gastos.txt");
 
         if (!arquivo.exists()) {
-            return; // Se ainda não existir arquivo, não faz nada
+            return;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
@@ -82,17 +85,30 @@ public class DiarioDeGastos {
         }
     }
 
-    public DiarioDeGastos(){
-        listaDeGastos = new ArrayList<>();
-        carregarDoArquivo();
-    }
-
     public void adicionarGasto(Scanner sc){
-        System.out.println("Digite a descrição:");
-        String descricao = sc.nextLine();
+        String descricao;
+        while (true) {
+            System.out.println("Digite a descrição:");
+             descricao = sc.nextLine().trim();
 
-        System.out.println("Digite a categoria:");
-        String categoria = sc.nextLine();
+            if (!descricao.isEmpty()) {
+                break;
+            } else {
+                System.out.println("A descrição não pode estar vazia.");
+            }
+        }
+
+        String categoria;
+        while (true) {
+            System.out.println("Digite a categoria:");
+            categoria = sc.nextLine().trim();
+
+            if (!categoria.isEmpty()) {
+                break;
+            } else {
+                System.out.println("A categoria não pode estar vazia.");
+            }
+        }
 
         System.out.println("Digite o valor:");
         double valor = lerDouble(sc);
@@ -140,7 +156,7 @@ public class DiarioDeGastos {
                 String mes = sc.nextLine();
 
                 for (Gasto gasto : listaDeGastos) {
-                    String mesGasto = gasto.getData().substring(3,5);
+                    String mesGasto = gasto.getData().substring(3, 5);
 
                     if (mesGasto.equals(mes)) {
                         System.out.println(gasto);
@@ -150,22 +166,37 @@ public class DiarioDeGastos {
 
             case 2:
                 System.out.print("Digite o dia inicial da semana: ");
-                int inicio = lerInteiro(sc);
+                int diaInicial = lerInteiro(sc);
 
-                System.out.print("Digite o dia final da semana: ");
-                int fim = lerInteiro(sc);
+                System.out.print("Digite o mês (MM): ");
+                String mesSemana = sc.nextLine();
+
+                System.out.print("Digite o ano (yyyy): ");
+                String anoSemana = sc.nextLine();
+
+                int diaFinal = diaInicial + 6;
 
                 for (Gasto gasto : listaDeGastos) {
-                    int dia = Integer.parseInt(gasto.getData().substring(0,2));
 
-                    if (dia >= inicio && dia <= fim) {
-                        System.out.println(gasto);
+                    String data = gasto.getData();
+
+                    int dia = Integer.parseInt(data.substring(0, 2));
+                    mes = data.substring(3, 5);
+                    String ano = data.substring(6, 10);
+
+                    if (mes.equals(mesSemana) && ano.equals(anoSemana)) {
+                        if (dia >= diaInicial && dia <= diaFinal) {
+                            System.out.println(gasto);
+                        }
                     }
                 }
                 break;
 
-            default:
-                System.out.println("Opção inválida.");
+
+
+        default:
+        System.out.println("Opção inválida.");
+
         }
     }
 
@@ -190,7 +221,7 @@ public class DiarioDeGastos {
             if (confirmacao.equals("s")) {
                 listaDeGastos.remove(opcao);
                 System.out.println("Gasto removido com sucesso!");
-            } if (confirmacao.equals("n")) {
+            } else if (confirmacao.equals("n")) {
                 System.out.println("Remoção cancelada.");
             }
             else {

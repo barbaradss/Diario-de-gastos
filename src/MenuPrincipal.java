@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class MenuPrincipal {
     public static void main(String[] args) {
 
@@ -18,7 +16,7 @@ public class MenuPrincipal {
             System.out.println("3-Remover Gasto");
             System.out.println("4-Editar gasto");
             System.out.println("5-Sair");
-            opcao = diario.lerInteiro(sc); // arrumar delay no scanner
+            opcao = diario.lerInteiro(sc);
 
 
             switch (opcao) {
@@ -31,6 +29,7 @@ public class MenuPrincipal {
                     System.out.println("Saindo do programa...");
                     break;
                 }
+                default -> System.out.println("Opção Inválida!");
             }
         }while (opcao != 5);
     }
